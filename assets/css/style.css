@@ -1,0 +1,182 @@
+/* ヘッダー */
+.header-title{
+    padding: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 20px;
+}
+.page-header{
+    background-color: #f4f7f9;
+    width: 100%;
+    height: 80px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    z-index: 999;
+}
+.main-nav{
+    display: flex;
+    font-size: 1.25rem;
+    list-style: none;
+    margin-right: 10px;
+    cursor: pointer;
+    cursor: hand;
+}
+.main-nav li{
+    margin-right: 7px;
+}
+.modal{
+    display: none;
+    
+}
+.modal a{
+    text-decoration: none;
+    padding: 15px 20px;
+    border: 1px #b8b7b7 solid;
+    background-color: white;
+    z-index: 1;
+    border-radius: 5px;
+}
+/* authで使うcss */
+main{
+    margin-top: 6.5rem;
+}
+span{
+    color: rgb(216, 20, 20);
+    font-weight: 600;
+    font-size: 0.7rem;
+}
+.new-btn{
+    padding: 5px 20px;
+    background-color: #f18e2b;
+    border: none;
+    border-radius: 5px;
+}
+.btn-center{
+    text-align: center;
+}
+input{
+    margin-bottom: 15px;
+}
+form{
+    margin-left: 10px;
+}
+.border{
+    border: 0.5px solid #b8b7b7;
+    max-width: 500px;
+    margin: auto;
+    z-index: 999;
+    background-color: white;
+}
+.change-link-p{
+    margin: 0 auto;
+}
+.error{
+    color: rgb(242, 45, 45);
+    padding: 0;
+    margin: 0;
+}
+/* project create.phpで使うcss */
+.projectModal{
+    display: none;
+}
+#create-set{
+    cursor: pointer;
+    cursor: hand;
+}
+.create-select{
+    text-align: center;
+    margin-top: 45px;
+}
+.create-select a{
+    text-decoration: none;
+    background-color: #5b5a5a;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.create-btn{
+    border-radius: 5px;
+    padding: 4px 13px;
+    color: white;
+    background-color: #318ced;
+    border: none;
+}
+.projectModal img{
+    position: relative;
+    top: 5px;
+}
+/* Project index.phpで使うcss */
+.project-link{
+    text-decoration: none;
+    width: 300px;
+    /* padding: 25px 40px;
+    border-radius: 5px; */
+    /* border:0.7px solid #b8b7b7; */
+}
+.text-align{
+    text-align: center;
+}
+.project-border{
+    padding: 40px;
+}
+.create-link-btn{
+    position: relative;
+    bottom: 12px;
+    text-decoration: none;
+    padding: 8px 15px;
+    background-color: #318ced;
+    color: white;
+    border-radius: 7px;
+}
+.project-div{
+    border:0.7px solid #b8b7b7;
+    padding: 25px 40px;
+    border-radius: 5px;
+    margin: 0;
+}
+/* Project show.php で使うcss */
+.show-flex{
+    display: flex;
+    justify-content: space-around;
+}
+.show-border{
+    border:0.7px solid #b8b7b7;
+    width: 250px;
+    padding-top: 20px;
+    padding-bottom: 60px;
+    padding-left:25px;
+    padding-right: 25px;
+    border-radius: 5px;
+    z-index: 998;
+    background-color: white;
+}
+.show-plus{
+    border:0.7px solid #b8b7b7;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    cursor: hand;
+}
+.showModal{
+    display: none;
+    border: 0.7px solid #b8b7b7;
+    padding: 5px;
+}
+.card{
+    border:0.7px solid #b8b7b7;
+    border-radius: 5px;
+    padding: 10px 15px;
+}
+/* 背景色のためのcss */
+.pink{
+    background-color: #FEEEED;
+}
+.sky{
+    background-color: #F0F8FF;
+}
+
