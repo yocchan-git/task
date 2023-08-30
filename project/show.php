@@ -30,26 +30,25 @@ if($project['color_type'] == 'pink'){
 
 <?php
 // require('task/store.php');
-$i =  1;
-if(!empty($_POST)){
-    if($_POST['name'] == ''){
-        $error['name'] = 'blank';
-    }
-    if(empty($error)){
-       $statement = $db->prepare('INSERT into tasks set project_id=?, title=?,description=?,order_num=?,status=?,created_at=Now()');
+// if(!empty($_POST)){
+//     if($_POST['name'] == ''){
+//         $error['name'] = 'blank';
+//     }
+//     if(empty($error)){
+//        $statement = $db->prepare('INSERT into tasks set project_id=?, title=?,description=?,order_num=?,status=?,created_at=Now()');
 
-        echo $show = $statement->execute(array(
-            $id,
-            $_POST['name'],
-            $_POST['content'],
-            $i,
-            $_POST['states']
-        ));
-        unset($_POST);
-        // header('Location:index.php');
-        // exit();
-    }
-}
+//         echo $show = $statement->execute(array(
+//             $id,
+//             $_POST['name'],
+//             $_POST['content'],
+//             1,
+//             $_POST['states']
+//         ));
+//         unset($_POST);
+//         header('Location:index.php');
+//         exit();
+//     }
+// }
 $tasks = $db->prepare('SELECT * from tasks where project_id=?');
 $tasks->execute(array(
     $id
@@ -70,8 +69,9 @@ require('../components/header.php');
             <p class="show-plus">+ タスクを追加</p>
         </div>
         <div class="showModal" id="showModal">
-            <form action="" method="post">
-                <input type="hidden" name="states" value="will">
+            <!-- <form> -->
+                <input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
+                <input type="hidden" id="status" name="states" value="will">
                 <label for="name">タイトル</label><br>
                 <input type="text" id="name" name="name"><br>
 
@@ -80,9 +80,10 @@ require('../components/header.php');
 
                 <div class="text-aligin">
                     <button>削除</button>
-                    <input type="submit" value="登録">
+                    <!-- <input type="submit" value="登録"> -->
+                    <button onclick="accessPhpFile()">登録</button>
                 </div>
-            </form>
+            <!-- </form> -->
         </div>
 
         <?php foreach($tasks as $task): ?>
@@ -115,6 +116,7 @@ require('../components/header.php');
         <h3>完了</h3>
     </div>
 </div>
+<div id="result"></div>
 </main>
 
 <style>
