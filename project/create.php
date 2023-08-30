@@ -1,18 +1,33 @@
 <?php
 require('../db/dbconnect.php');
 session_start();
+// require文を使ってProject.phpを読み込む
+require('./Project.php');
+// プロジェクト処理をクラスを使う
+// インスタンス化する
+$obj=new connectProject();
+// 変数に$_POSTの値を取り込む
+$id = $_SESSION['id'];
+$name = $_POST['name'];
+$project = $_POST['project'];
+$color = $_POST['color'];
+// functionを実行する
+
 if(!empty($_POST)){
     if($_POST['name'] == ''){
         $error['name'] = 'blank';
     }
     if(empty($error)){
-        $tasks = $db->prepare('INSERT into projects set user_id=?, name=?,description=?,color_type=?,created=Now()');
-        echo $task = $tasks->execute(array(
-            $_SESSION['id'],
-            $_POST['name'],
-            $_POST['project'],
-            $_POST['color']
-        ));
+
+        $sql="INSERT into projects set user_id=:id, name=:name,description=:description,color_type=:color,created=Now()";
+        $task=$obj->plural($sql,$id,$name,$project,$color);
+        // $tasks = $db->prepare('INSERT into projects set user_id=?, name=?,description=?,color_type=?,created=Now()');
+        // echo $task = $tasks->execute(array(
+        //     $_SESSION['id'],
+        //     $_POST['name'],
+        //     $_POST['project'],
+        //     $_POST['color']
+        // ));
 
         unset($_POST);
         echo header('Location:index.php');
