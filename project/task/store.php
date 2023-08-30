@@ -1,22 +1,20 @@
 <?php
-$i=1;
-if(!empty($_POST)){
-    if($_POST['name'] == ''){
-        $error['name'] = 'blank';
-    }
-    if(empty($error)){
-       $statement = $db->prepare('INSERT into tasks set project_id=?, title=?,description=?,order_num=?,status=?,created_at=Now()');
 
-        echo $show = $statement->execute(array(
-            $id,
-            $_POST['name'],
-            $_POST['content'],
-            $i,
-            $_POST['states']
-        ));
-        unset($_POST);
-        // header('Location:index.php');
-        // exit();
-    }
-}
+require('./Task.php');
+
+$obj=new connect();
+
+$sql="SELECT * FROM tasks";
+$sql2="INSERT into tasks set project_id=:id, title=:title, description=:description, order_num=:order_num, status=:status, created_at=Now()";
+//変数の設定
+$test=$_GET['id'];
+$title = $_GET['title'];
+$discription = $_GET['discription'];
+$order_num = 1;
+$status = $_GET['status'];
+//クラスの中の関数の呼び出し
+$items=$obj->select($sql);
+$items2=$obj->plural($sql2,$test,$title,$discription,$order_num,$status);
+
+header('Location:../show.php?id='.$_GET['id']);
 ?>
