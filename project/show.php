@@ -99,11 +99,13 @@ require('../components/header.php');
             </div>
         
             <div>
-                <button onclick="deleteTask()">削除</button>
+                <button onclick="deleteTask(<?php echo htmlspecialchars($task['id'],ENT_QUOTES); ?>)">削除</button>
             </div>
         </div>
         <?php endforeach; ?>
-        <div id="new-content"></div>
+        <div id="new-content">
+            <!-- ここに新しくできたタスクを追加 -->
+        </div>
     </div>
     <div class="show-content show-border">
         <h3>対応中</h3>
