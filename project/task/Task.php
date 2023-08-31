@@ -1,11 +1,12 @@
 <?php
+
 class connect {
   //定数の宣言
-  const DB_NAME='kanri';
-  const HOST='localhost';
-  const UTF='utf8';
-  const USER='root';
-  const PASS='root';
+  const DB_NAME='rkmcl_tasks';
+  const HOST='mysql93.conoha.ne.jp';
+  const UTF='utf8mb4';
+  const USER='rkmcl_tasks';
+  const PASS='task&2525';
   //データベースに接続する関数
   public function pdo(){
     /*phpのバージョンが5.3.6よりも古い場合はcharset=".self::UTFが必要無くなり、array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES '.SELF::UTF')が必要になり、5.3.6以上の場合は必要ないがcharset=".self::UTFは必要になる。*/
@@ -29,11 +30,29 @@ class connect {
     $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
     return $items;
   }
-  //SELECT,INSERT,UPDATE,DELETE文の時に使用する関数。
+  //SELECT,INSERT,UPDATE文の時に使用する関数。
   public function plural($sql,$item,$title,$description,$order_num,$status){
     $hoge=$this->pdo();
     $stmt=$hoge->prepare($sql);
     $stmt->execute(array(':id'=>$item,':title'=>$title,':description'=>$description,':order_num'=>$order_num,':status'=>$status));//sql文のVALUES等の値が?の場合は$itemでもいい。
+    return $stmt;
+    // return $hoge -> lastInsertId();
+    // return $this->pdo()->lastInsertId();
+  }
+
+  public function getId($sql,$title){
+    $hoge=$this->pdo();
+    $stmt=$hoge->prepare($sql);
+    $stmt->execute(array(':title'=>$title));
+    $get_id=$stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $get_id;
+  }
+
+  // delete文の時に使用する関数
+  public function delete($sql,$item){
+    $hoge=$this->pdo();
+    $stmt=$hoge->prepare($sql);
+    $stmt->execute(array(':id'=>$item));//sql文のVALUES等の値が?の場合は$itemでもいい。
     return $stmt;
   }
 }
