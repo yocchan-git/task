@@ -1,11 +1,11 @@
 <?php
 class connectProject {
   //定数の宣言
-  const DB_NAME='kanri';
-  const HOST='localhost';
-  const UTF='utf8';
-  const USER='root';
-  const PASS='root';
+  const DB_NAME='rkmcl_tasks';
+  const HOST='mysql93.conoha.ne.jp';
+  const UTF='utf8mb4';
+  const USER='rkmcl_tasks';
+  const PASS='task&2525';
   //データベースに接続する関数
   public function pdo(){
     /*phpのバージョンが5.3.6よりも古い場合はcharset=".self::UTFが必要無くなり、array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES '.SELF::UTF')が必要になり、5.3.6以上の場合は必要ないがcharset=".self::UTFは必要になる。*/
