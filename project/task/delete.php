@@ -1,3 +1,11 @@
-<!-- taskのidを受け取る -->
+<?php
+require('./Task.php');
+$data = json_decode(file_get_contents("php://input"), true);
 
-<!-- idに適応するデータベースの行を削除する -->
+$id = $data['task_id'];
+$obj=new connect();
+
+$sql = 'DELETE from tasks where id=:id';
+$delete = $obj->delete($sql,$id);
+exit();
+?>
