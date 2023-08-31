@@ -79,12 +79,12 @@ require('../components/header.php');
                 <textarea name="content" id="content" cols="30" rows="5"></textarea><br>
 
                 <div class="text-aligin">
-                    <button>削除</button>
-                    <!-- <input type="submit" value="登録"> -->
+                    <button onclick="closeNewTask('showModal');">削除</button>
                     <button onclick="accessPhpFile()">登録</button>
                 </div>
             <!-- </form> -->
         </div>
+
 
         <?php foreach($tasks as $task): ?>
         <div id="task<?php echo htmlspecialchars($task['id'],ENT_QUOTES); ?>" class="card" draggable="true">
@@ -99,14 +99,11 @@ require('../components/header.php');
             </div>
         
             <div>
-                <button>削除</button>
+                <button onclick="deleteTask()">削除</button>
             </div>
-            
-            <!-- <form action="">
-                <input type="submit" value="削除"></button>
-            </form> -->
         </div>
         <?php endforeach; ?>
+        <div id="new-content"></div>
     </div>
     <div class="show-content show-border">
         <h3>対応中</h3>
