@@ -37,6 +37,16 @@ function createModalchange(idname){
     }
 }  
 
+function closeNewTask(idname){
+    var close = document.getElementById(idname);
+    close.style.display = 'none';
+
+    var name = document.getElementById("name");
+    var discription = document.getElementById("content");
+    // 内容を空にする
+    name.value = '';
+    discription.value = '';
+}
 
 function changewhite(idname){
     var obj = document.getElementById(idname);
