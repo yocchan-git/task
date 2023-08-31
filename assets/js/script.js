@@ -26,6 +26,17 @@ function showModalchange(idname){
     show.style.display = 'block';
 }
 
+function closeNewTask(idname){
+    var close = document.getElementById(idname);
+    close.style.display = 'none';
+
+    var name = document.getElementById("name");
+    var discription = document.getElementById("content");
+    // 内容を空にする
+    name.value = '';
+    discription.value = '';
+}
+
 let j = 0;
 function createModalchange(idname){
     var project = document.getElementById(idname);
