@@ -11,7 +11,7 @@ $users->execute(array(
 ));
 $user = $users->fetch();
 
-$projects = $db->prepare('SELECT * from projects where user_id=?');
+$projects = $db->prepare('SELECT * from projects where user_id=? order by id desc');
 $projects->execute(array(
     $_SESSION['id']
 ));
