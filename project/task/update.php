@@ -1,5 +1,6 @@
 <!-- データを受け取り、カードの形にして返す -->
 <?php
+// require('../../db/dbconnect.php');
 
 $data = json_decode(file_get_contents("php://input"), true);
 
