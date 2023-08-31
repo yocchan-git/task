@@ -64,5 +64,11 @@ function changesky(idname){
     obj.style.backgroundColor = '#F0F8FF';  //背景色を水色にする
 }
 
-
+// 削除ボタンを押せばhtml要素が消える関数をかく
+function removeElement(id) {
+    var element = document.getElementById(id);
+    if (element) {
+        element.parentNode.removeChild(element);
+    }
+}
   
