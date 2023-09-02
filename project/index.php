@@ -1,20 +1,9 @@
 <?php
-require('../db/dbconnect.php');
-session_start();
-
 require('../auth/login-check.php');
-?>
-<?php
-$users = $db->prepare('SELECT * from users where id=?');
-$users->execute(array(
-    $_SESSION['id']
-));
-$user = $users->fetch();
+require('Project.php');
 
-$projects = $db->prepare('SELECT * from projects where user_id=? order by id desc');
-$projects->execute(array(
-    $_SESSION['id']
-));
+$projectClass = new Project();
+$projects = $projectClass->getMyProjects($user['id']);
 
 require('../components/header.php');
 ?>
@@ -26,11 +15,21 @@ require('../components/header.php');
 
 <div class="border project-border">
     <div class="text-align">
-        <?php foreach($projects as $project): ?>
+        <?php
+        foreach($projects as $project):
+        ?>
             <div class="project-div">
-             <a class="project-link" href="show.php?id=<?php echo htmlspecialchars($project['id'],ENT_QUOTES); ?>"><?php echo htmlspecialchars($project['name'],ENT_QUOTES); ?></a>
+                <a class="project-link" href="show.php?project_id=<?php 
+                echo htmlspecialchars($project['id'],ENT_QUOTES);
+                 ?>">
+                    <?php
+                     echo htmlspecialchars($project['name'],ENT_QUOTES); 
+                    ?>
+                </a>
             </div><br>
-        <?php endforeach; ?>
+        <?php
+        endforeach;
+        ?>
     </div>
 </div>
 
