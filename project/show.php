@@ -1,121 +1,119 @@
 <?php
-require('../db/dbconnect.php');
-session_start();
 
 require('../auth/login-check.php');
-?>
-<?php
-$users = $db->prepare('SELECT * from users where id=?');
-$users->execute(array(
-    $_SESSION['id']
-));
-$user = $users->fetch();
-$id = $_GET['id'];
+require('Project.php');
+require('task/Task.php');
 
-$projects = $db->prepare('SELECT * from projects where id=?');
-$projects->execute(array(
-    $id
-));
-$project = $projects->fetch();
+$projectId = $_GET['project_id'];
 
+$projectClass = new Project();
+$project = $projectClass->getMyProject($user['id'],$projectId);
+if($project === false){
+    echo '該当するプロジェクトはありません';
+}
+// 背景の色を取得する
 $color = '';
-if($project['color_type'] == 'pink'){
+if($project['color_type'] == 2){
     $color = '#FEEEED';
-}elseif($project['color_type'] == 'sky'){
+}elseif($project['color_type'] == 3){
     $color = '#F0F8FF';
 }else{
     $color = 'white';
 }
-?>
 
-<?php
-// require('task/store.php');
-// if(!empty($_POST)){
-//     if($_POST['name'] == ''){
-//         $error['name'] = 'blank';
-//     }
-//     if(empty($error)){
-//        $statement = $db->prepare('INSERT into tasks set project_id=?, title=?,description=?,order_num=?,status=?,created_at=Now()');
+$taskClass = new Task();
+$tasksAtStatusNot = $taskClass->getTasks($projectId, Task::STATUS_NOT);
+$tasksAtStatusDo = $taskClass->getTasks($projectId,Task::STATUS_DO);
+$tasksAtStatusFin = $taskClass->getTasks($projectId,Task::STATUS_FIN);
 
-//         echo $show = $statement->execute(array(
-//             $id,
-//             $_POST['name'],
-//             $_POST['content'],
-//             1,
-//             $_POST['states']
-//         ));
-//         unset($_POST);
-//         header('Location:index.php');
-//         exit();
-//     }
-// }
-$tasks = $db->prepare('SELECT * from tasks where project_id=?');
-$tasks->execute(array(
-    $id
-));
-?>
-
-<?php
 require('../components/header.php');
-// require('Project.php');
+
 ?>
 <main>
-<a href="index.php">&laquo;&nbsp;戻る</a>
-<h2><?php echo htmlspecialchars($project['name'],ENT_QUOTES); ?></h2>
-<div class="show-flex">
-    <div class="show-content show-border">
-        <h3>未対応</h3>
-        <div id="show-open" onclick="showModalchange('showModal');">
-            <p class="show-plus">+ タスクを追加</p>
-        </div>
-        <div class="showModal" id="showModal">
-            <!-- <form> -->
-                <input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
-                <input type="hidden" id="status" name="states" value="will">
-                <label for="name">タイトル</label><br>
-                <input type="text" id="name" name="name"><br>
+    <a href="index.php">&laquo;&nbsp;戻る</a>
+    <h2><?php echo htmlspecialchars($project['name'],ENT_QUOTES); ?></h2>
+    <div class="show-flex tasks">
+        <div class="show-content show-border task-block" id="task-not">
+            <h3>未対応</h3>
+            <div id="show-open" onclick="showModalchange('new-task');">
+                <p class="show-plus">+ タスクを追加</p>
+            </div>
+            <div class="showModal" id="new-task">
+                <form name="new_task_form" onsubmit="storeNewTask()">
+                    <input type="hidden" name="project_id" value="<?php echo htmlspecialchars($projectId,ENT_QUOTES); ?>">
+                    <label for="title">タイトル</label><br>
+                    <input type="text" id="title" name="title"><br>
 
-                <label for="content">詳細</label><br>
-                <textarea name="content" id="content" cols="30" rows="5"></textarea><br>
+                    <label for="description">詳細</label><br>
+                    <textarea name="description" id="description" cols="30" rows="5"></textarea><br>
 
-                <div class="text-aligin">
-                    <button onclick="closeNewTask('showModal');">削除</button>
-                    <button onclick="accessPhpFile()">登録</button>
+                    <div class="text-aligin">
+                        <button onclick="closeNewTask();">削除</button>
+                        <button>登録</button>
+                    </div>
+                </form>
+            </div>
+
+
+            <?php foreach($tasksAtStatusNot as $task): ?>
+            <div id="task<?php echo htmlspecialchars($task['id'],ENT_QUOTES); ?>" class="card task" draggable="true">
+                <div>
+                    <label style="margin-top:15px;">タイトル</label>
+                    <p style="margin-top:5px;margin-bottom:10px;"><?php echo htmlspecialchars($task['title'],ENT_QUOTES); ?></p>
                 </div>
-            <!-- </form> -->
-        </div>
-
-
-        <?php foreach($tasks as $task): ?>
-        <div id="task<?php echo htmlspecialchars($task['id'],ENT_QUOTES); ?>" class="card" draggable="true">
-            <div>
-                <label style="margin-top:15px;">タイトル</label>
-                <p style="margin-top:5px;margin-bottom:10px;"><?php echo htmlspecialchars($task['title'],ENT_QUOTES); ?></p>
-            </div>
+                
+                <div>
+                    <label style="margin:0;padding:0;">詳細</label>
+                    <p style="margin-top:5px;margin-bottom:10px;"><?php echo htmlspecialchars($task['description'],ENT_QUOTES); ?></p>
+                </div>
             
-            <div>
-                <label style="margin:0;padding:0;">詳細</label>
-                <p style="margin-top:5px;margin-bottom:10px;"><?php echo htmlspecialchars($task['description'],ENT_QUOTES); ?></p>
+                <div>
+                    <button onclick="deleteTask(<?php echo htmlspecialchars($task['id'],ENT_QUOTES); ?>)">削除</button>
+                </div>
             </div>
-        
-            <div>
-                <button onclick="deleteTask(<?php echo htmlspecialchars($task['id'],ENT_QUOTES); ?>)">削除</button>
+            <?php endforeach; ?>
+        </div><!-- task-not -->
+        <div class="show-content show-border task-block" id="task-do">
+            <h3>対応中</h3>
+            <?php foreach($tasksAtStatusDo as $task): ?>
+            <div id="task<?php echo htmlspecialchars($task['id'],ENT_QUOTES); ?>" class="card task" draggable="true">
+                <div>
+                    <label style="margin-top:15px;">タイトル</label>
+                    <p style="margin-top:5px;margin-bottom:10px;"><?php echo htmlspecialchars($task['title'],ENT_QUOTES); ?></p>
+                </div>
+                
+                <div>
+                    <label style="margin:0;padding:0;">詳細</label>
+                    <p style="margin-top:5px;margin-bottom:10px;"><?php echo htmlspecialchars($task['description'],ENT_QUOTES); ?></p>
+                </div>
+            
+                <div>
+                    <button onclick="deleteTask(<?php echo htmlspecialchars($task['id'],ENT_QUOTES); ?>)">削除</button>
+                </div>
             </div>
-        </div>
-        <?php endforeach; ?>
-        <div id="new-content">
-            <!-- ここに新しくできたタスクを追加 -->
-        </div>
+            <?php endforeach; ?>
+        </div><!-- task-do -->
+        <div class="show-content show-border task-block" id="task-fin">
+            <h3>完了</h3>
+            <?php foreach($tasksAtStatusFin as $task): ?>
+            <div id="task<?php echo htmlspecialchars($task['id'],ENT_QUOTES); ?>" class="card task" draggable="true">
+                <div>
+                    <label style="margin-top:15px;">タイトル</label>
+                    <p style="margin-top:5px;margin-bottom:10px;"><?php echo htmlspecialchars($task['title'],ENT_QUOTES); ?></p>
+                </div>
+                
+                <div>
+                    <label style="margin:0;padding:0;">詳細</label>
+                    <p style="margin-top:5px;margin-bottom:10px;"><?php echo htmlspecialchars($task['description'],ENT_QUOTES); ?></p>
+                </div>
+            
+                <div>
+                    <button onclick="deleteTask(<?php echo htmlspecialchars($task['id'],ENT_QUOTES); ?>)">削除</button>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div><!-- task-fin -->
     </div>
-    <div class="show-content show-border">
-        <h3>対応中</h3>
-    </div>
-
-    <div class="show-content show-border">
-        <h3>完了</h3>
-    </div>
-</div>
-<div id="result"></div>
 </main>
 
 <style>
@@ -123,6 +121,4 @@ require('../components/header.php');
         background-color:<?php echo $color; ?>;
     }
 </style>
-
-<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"><script> -->
 <?php require('../components/footer.php'); ?>
