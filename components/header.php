@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
 <body id="target" class="show-color">
-        <?php if(isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()): ?>
+        <?php if(isset($_SESSION['id'])): ?>
             <header class="page-header">
             <h1 class="header-title">タスク管理アプリ</h1>
                 <nav>
