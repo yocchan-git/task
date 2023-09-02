@@ -21,7 +21,6 @@ if(!empty($_POST)){
 
         if($member){
             $_SESSION['id'] = $member['id'];
-            $_SESSION['time'] = time();
                 if($_POST['save'] == 'on'){
                     setcookie('email',$_POST['email'],time()+60*60*24*14);
                     setcookie('password',$_POST['password'],time()+60*60*24*14);
