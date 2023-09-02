@@ -1,3 +1,4 @@
 <?php
-header('Location:/auth/login.php');
+header('Location:/tasks/auth/login.php');
+exit();
 ?>
