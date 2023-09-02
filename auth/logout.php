@@ -1,19 +1,21 @@
 <?php
-require('../db/dbconnect.php');
 session_start();
-?>
-<?php
-require('../components/header.php');
-?>
 
-<?php
-if(isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()){
-    unset($_SESSION['id']);
-    header('Location:login.php');
-}else{
-    header('Location:login.php');
+
+$_SESSION = array();
+if(ini_get("session.use_cookies")){
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() -42000,
+        $params['path'], $params["domain"],
+        $params['secure'], $params["httponly"]
+    );
 }
-?>
-<?php
-require('../components/header.php');
+
+session_destroy();
+
+//クッキーも削除
+setcookie('email', '', time()-3600);
+setcookie('password', '', time()-3600);
+header('Location: ../auth/login.php');
+exit();
 ?>
