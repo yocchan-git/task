@@ -17,12 +17,6 @@ function Taskdelete(idname){
 // let k = 0;
 function showModalchange(idname){
     var show = document.getElementById(idname);
-    // k++;
-    // if(k%2 == 1){
-    //     show.style.display = 'block';
-    // }else{
-    //     show.style.display = 'none';
-    // }
     show.style.display = 'block';
 }
 
@@ -36,17 +30,6 @@ function createModalchange(idname){
         project.style.display = 'none';
     }
 }  
-
-function closeNewTask(idname){
-    var close = document.getElementById(idname);
-    close.style.display = 'none';
-
-    var name = document.getElementById("name");
-    var discription = document.getElementById("content");
-    // 内容を空にする
-    name.value = '';
-    discription.value = '';
-}
 
 function changewhite(idname){
     var obj = document.getElementById(idname);
@@ -63,11 +46,4 @@ function changesky(idname){
     obj.style.backgroundColor = '#F0F8FF';  //背景色を水色にする
 }
 
-// 削除ボタンを押せばhtml要素が消える関数をかく
-function removeElement(id) {
-    var element = document.getElementById(id);
-    if (element) {
-        element.parentNode.removeChild(element);
-    }
-}
   
