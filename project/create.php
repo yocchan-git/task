@@ -1,48 +1,23 @@
 <?php
-require('../db/dbconnect.php');
-session_start();
+// ログインチェックする
+require('../auth/login-check.php');
 // require文を使ってProject.phpを読み込む
-require('./Project.php');
+require('Project.php');
 // プロジェクト処理をクラスを使う
-// インスタンス化する
-$obj=new connectProject();
-// 変数に$_POSTの値を取り込む
-$id = $_SESSION['id'];
-$name = $_POST['name'];
-$project = $_POST['project'];
-$color = $_POST['color'];
-// functionを実行する
+
 
 if(!empty($_POST)){
     if($_POST['name'] == ''){
         $error['name'] = 'blank';
     }
     if(empty($error)){
+        $projectClass = new Project();
+        $projectClass->store($user['id'],$_POST);
 
-        $sql="INSERT into projects set user_id=:id, name=:name,description=:description,color_type=:color,created=Now()";
-        $task=$obj->plural($sql,$id,$name,$project,$color);
-        // $tasks = $db->prepare('INSERT into projects set user_id=?, name=?,description=?,color_type=?,created=Now()');
-        // echo $task = $tasks->execute(array(
-        //     $_SESSION['id'],
-        //     $_POST['name'],
-        //     $_POST['project'],
-        //     $_POST['color']
-        // ));
-
-        unset($_POST);
-        echo header('Location:index.php');
+        header('Location: ./index.php');
         exit();
     }
 }
-
-require('../auth/login-check.php');
-?>
-<?php
-$users = $db->prepare('SELECT * from users where id=?');
-$users->execute(array(
-    $_SESSION['id']
-));
-$user = $users->fetch();
 
 require('../components/header.php');
 ?>
@@ -65,15 +40,15 @@ require('../components/header.php');
 
     <div class="projectModal" id="projectModal">
         <br>
-        <label for="project">プロジェクト概要</label><br>
-        <textarea name="project" id="project" cols="40" rows="5"></textarea>
+        <label for="description">プロジェクト概要</label><br>
+        <textarea name="description" id="description" cols="40" rows="5"></textarea>
         <br>
         <br>
 
         <label for="color">プロジェクトカラー</label>
-        <input type="radio" name="color" value="white" onclick="changewhite('target');" checked><img width="30" height="30" src="../assets/images/color-white.png" alt="">
-        <input type="radio" name="color" value="pink" onclick="changepink('target');"><img width="30" height="30" src="../assets/images/color-red.png" alt="">
-        <input type="radio" name="color" value="sky" onclick="changesky('target');"><img width="30" height="30" src="../assets/images/color-blue.png" alt="">
+        <input type="radio" name="color_type" value="1" onclick="changewhite('target');" checked><img width="30" height="30" src="../assets/images/color-white.png" alt="">
+        <input type="radio" name="color_type" value="2" onclick="changepink('target');"><img width="30" height="30" src="../assets/images/color-red.png" alt="">
+        <input type="radio" name="color_type" value="3" onclick="changesky('target');"><img width="30" height="30" src="../assets/images/color-blue.png" alt="">
     </div>
 
     <div class="create-select">
