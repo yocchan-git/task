@@ -1,11 +1,21 @@
 <?php
-if(isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()){
-    $_SESSION['time'] = time();
+require_once('../db/dbconnection.php');
+session_start();
 
-    $members = $db->prepare('SELECT * from members where id=?');
-    $members->execute(array($_SESSION['id']));
-    $member = $members->fetch();
+if(isset($_SESSION['id'])){
+    $user_id = $_SESSION['id'];
+
+    $db = Database::dbConnect();
+    $login = $db->prepare('SELECT * from users where id=?');
+    $login->execute(array($user_id));
+    $user = $login->fetch();
+
+    if(!$user){
+        header('Location: ../auth/login.php');
+        exit();
+    }
 }else{
-    header('Location:../auth/login.php');
+    header('Location: ../auth/login.php');
+    exit();
 }
 ?>
